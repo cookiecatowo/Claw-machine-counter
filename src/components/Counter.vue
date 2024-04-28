@@ -52,7 +52,8 @@
       <span class="text-right">總收益</span>
       <span>{{ totalProfit }} 元</span>
     </div>
-    <div class="bg-white border border-gray-300 rounded-lg py-4 px-8 grid grid-cols-2 gap-3 text-lg font-semibold text-red-700">
+    <div class="bg-white border border-gray-300 rounded-lg py-4 px-8 grid grid-cols-2 gap-3 text-lg font-semibold"
+      :class="totalProfit - totalSpend > 0 ? 'text-green-700': 'text-red-700'" >
       <span class="text-right">總利潤</span>
       <span>{{ totalProfit - totalSpend }} 元</span>
     </div>
@@ -74,7 +75,7 @@
             <span>{{item.name || '禮品' + (iter+1)}}</span>
             <span>{{item.cost}}</span>
             <span>{{item.spend}}</span>
-            <span>{{item.cost - item.spend}}</span>
+            <span>{{ item.cost - item.spend || -item.spend }}</span>
           </div>
           <div v-if="itemList.length < 1" class="h-12 flex items-center justify-center">
             目前暫無項目
@@ -82,15 +83,16 @@
         </div>
         <DrawerFooter>
           <div class="grid grid-cols-3 gap-2">
-            <div class="bg-white border border-gray-300 rounded-lg p-2 flex justify-center items-center gap-2 text-base font-semibold">
+            <div class="bg-white border border-gray-300 rounded-lg p-2 flex flex-wrap justify-center items-center gap-2 text-base font-semibold">
               <span class="text-right">總花費</span>
               <span>{{ totalSpend }} 元</span>
             </div>
-            <div class="bg-white border border-gray-300 rounded-lg p-2 flex justify-center items-center gap-2 text-base font-semibold">
+            <div class="bg-white border border-gray-300 rounded-lg p-2 flex flex-wrap justify-center items-center gap-2 text-base font-semibold">
               <span class="text-right">總收益</span>
               <span>{{ totalProfit }} 元</span>
             </div>
-            <div class="bg-white border border-gray-300 rounded-lg p-2 flex justify-center items-center gap-2 text-base font-semibold text-red-700">
+            <div class="bg-white border border-gray-300 rounded-lg p-2 flex flex-wrap justify-center items-center gap-2 text-base font-semibold "
+              :class="totalProfit - totalSpend > 0 ? 'text-green-700': 'text-red-700'">
               <span class="text-right">總利潤</span>
               <span>{{ totalProfit - totalSpend }} 元</span>
             </div>
@@ -151,6 +153,11 @@ import {
     }
   }
   const giveUp = () => {
+    itemList.value.push({
+      spend: current.value.spend,
+      cost: '未夾出',
+      name: current.value.name 
+    })
     currentInit()
   }
   const clear = () => {
