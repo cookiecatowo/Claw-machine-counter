@@ -21,27 +21,31 @@
         </div>
       </div>
       <div class="flex flex-col gap-2">
-        <Button class="text-lg font-normnal bg-slate-500 h-1/2" @click="coin">投幣</Button>
-        <Dialog>
-          <DialogTrigger class="h-1/2 w-full">
-            <Button class="text-lg font-normnal bg-slate-500 w-full" @click="getPirce">出貨</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>恭喜出貨!</DialogTitle>
-              <DialogDescription>
-                是否要沿用禮品名稱與禮品金額?
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <DialogClose class="w-full flex gap-2">
-                <Button class="font-semibold bg-slate-500 w-1/2">沿用</Button>
-                <Button class="font-semibold bg-white border border-2 border-slate-500 w-1/2 text-late-500 hover:bg-slate-200" @click="currentInit">清除</Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-        <Button class="text-lg font-normnal bg-slate-500 h-1/2" @click="giveUp">放棄</Button>
+        <Button class="text-lg font-normnal bg-slate-500 h-2/3" @click="coin">投幣</Button>
+        <div class="grid grid-cols-2 gap-2 h-fit">
+          <!-- <Dialog>
+            <DialogTrigger class="h-full w-full">
+              <Button class="text-lg font-normnal bg-slate-500 w-full h-full" @click="getPirce">出貨</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>恭喜出貨!</DialogTitle>
+                <DialogDescription>
+                  是否要沿用禮品名稱與禮品金額?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose class="w-full flex gap-2">
+                  <Button class="font-semibold bg-slate-500 w-1/2">沿用</Button>
+                  <Button class="font-semibold bg-white border border-2 border-slate-500 w-1/2 text-late-500 hover:bg-slate-200" @click="currentInit">清除</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog> -->
+          <Button class="text-lg font-normnal bg-slate-500 w-full h-full" @click="getPirce">出貨</Button>
+          <Button class="text-lg font-normnal bg-slate-500 h-full" @click="giveUp">放棄</Button>
+        </div>
+        
       </div>
     </div>
     <div class="bg-white border border-gray-300 rounded-lg py-4 px-8 grid grid-cols-2 gap-3 text-lg font-semibold">
@@ -164,7 +168,7 @@ import {
     currentInit()
     totalProfit.value = 0
     totalSpend.value = 0
-    current.value = []
+    itemList.value = []
   }
 
 </script>
