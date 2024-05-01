@@ -25,7 +25,7 @@
         <div class="grid grid-cols-2 gap-2 h-fit">
           <!-- <Dialog>
             <DialogTrigger class="h-full w-full">
-              <Button class="text-lg font-normnal bg-slate-500 w-full h-full" @click="getPirce">出貨</Button>
+              <Button class="text-lg font-normnal bg-slate-500 w-full h-full" @click="getPrice">出貨</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -42,7 +42,7 @@
               </DialogFooter>
             </DialogContent>
           </Dialog> -->
-          <Button class="text-lg font-normnal bg-slate-500 w-full h-full" @click="getPirce">出貨</Button>
+          <Button class="text-lg font-normnal bg-slate-500 w-full h-full" @click="getPrice">出貨</Button>
           <Button class="text-lg font-normnal bg-slate-500 h-full" @click="giveUp">放棄</Button>
         </div>
         
@@ -138,37 +138,75 @@ import {
   const itemList = ref([])
   const coin = () => {
     current.value.spend += 10
+    localStorage.setItem('current', JSON.stringify(current.value))
+
     totalSpend.value += 10
+    localStorage.setItem('totalSpend', JSON.stringify(totalSpend.value))
   }
-  const getPirce = () => {
+  const getPrice = () => {
     totalProfit.value += Number(current.value.cost)
-    itemList.value.push({
+    localStorage.setItem('totalProfit', JSON.stringify(totalProfit.value))
+
+    pushItem({
       spend: current.value.spend,
       cost: current.value.cost,
       name: current.value.name 
     })
+
     current.value.spend = 0
+    localStorage.setItem('current', JSON.stringify(current.value))
   }
+
   const currentInit = () => {
     current.value = {
       spend: 0,
       cost: 0,
       name: ''
     }
+    localStorage.setItem('current', JSON.stringify(current.value))
   }
   const giveUp = () => {
-    itemList.value.push({
+    pushItem({
       spend: current.value.spend,
       cost: '未夾出',
       name: current.value.name 
     })
     currentInit()
   }
+
   const clear = () => {
     currentInit()
     totalProfit.value = 0
     totalSpend.value = 0
     itemList.value = []
+    localStorage.clear()
   }
+
+  const pushItem = ( item ) => {
+    itemList.value.push(item)
+    localStorage.setItem('itemList', JSON.stringify(itemList.value))
+  }
+
+  const onUnmounted = () => {
+    localStorage.setItem('itemList', JSON.stringify(itemList.value))
+    localStorage.setItem('totalSpend', JSON.stringify(totalSpend.value))
+    localStorage.setItem('totalProfit', JSON.stringify(totalProfit.value))
+  }
+
+  const onMounted = () => {
+    const localList = localStorage.getItem('itemList')
+    if (localList) itemList.value = JSON.parse(localList)
+
+    const localSpend = localStorage.getItem('totalSpend')
+    if (localSpend) totalSpend.value = JSON.parse(localSpend)
+
+    const localProfit = localStorage.getItem('totalProfit')
+    if (localProfit) totalProfit.value = JSON.parse(localProfit)
+
+    const localCurrent = localStorage.getItem('current')
+    if (localCurrent) current.value = JSON.parse(localCurrent)
+  }
+
+  onMounted()
 
 </script>
