@@ -125,7 +125,7 @@ import {
   DialogTrigger,
   DialogClose
 } from '@/components/ui/dialog'
-  import { ref } from 'vue'
+  import { ref, onMounted, onUnmounted } from 'vue'
 
   const current = ref({})
   current.value = {
@@ -187,13 +187,13 @@ import {
     localStorage.setItem('itemList', JSON.stringify(itemList.value))
   }
 
-  const onUnmounted = () => {
+  onUnmounted( () => {
     localStorage.setItem('itemList', JSON.stringify(itemList.value))
     localStorage.setItem('totalSpend', JSON.stringify(totalSpend.value))
     localStorage.setItem('totalProfit', JSON.stringify(totalProfit.value))
-  }
+  })
 
-  const onMounted = () => {
+  onMounted (() => {
     const localList = localStorage.getItem('itemList')
     if (localList) itemList.value = JSON.parse(localList)
 
@@ -205,8 +205,5 @@ import {
 
     const localCurrent = localStorage.getItem('current')
     if (localCurrent) current.value = JSON.parse(localCurrent)
-  }
-
-  onMounted()
-
+  })
 </script>
